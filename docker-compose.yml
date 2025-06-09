@@ -1,14 +1,16 @@
 version: '3.8'
 
 services:
+  # Shared PostgreSQL database
   postgres:
-    image: postgres:13-alpine
+    image: postgres:15-alpine
+    container_name: pokeapi-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -17,12 +19,14 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - pokeapi-net
+      - pokeapi-network
 
+  # Python ETL Service
   etl:
     build:
-      context: .
+      context: ./pokeapi-etl
       dockerfile: Dockerfile
+    container_name: pokeapi-etl
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
@@ -33,16 +37,38 @@ services:
       - REQUEST_DELAY=${REQUEST_DELAY}
       - LOG_LEVEL=${LOG_LEVEL}
     volumes:
-      - ./logs:/app/logs
+      - ./pokeapi-etl/logs:/app/logs
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - pokeapi-net
+      - pokeapi-network
 
-networks:
-  pokeapi-net:
-    driver: bridge
+  # NestJS GraphQL API
+  api:
+    build:
+      context: ./pokeapi-be
+      dockerfile: Dockerfile
+    container_name: pokeapi-be
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=${POSTGRES_USER:-postgres}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - DB_NAME=${POSTGRES_DB:-pokemon}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - etl
+    networks:
+      - pokeapi-network
 
 volumes:
   postgres_data:
+
+networks:
+  pokeapi-network:
+    driver: bridge
+    

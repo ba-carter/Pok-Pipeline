@@ -1,0 +1,165 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Ability {
+  abilityId: ID!
+  abilityName: String!
+  pokemons: [Pokemon!]!
+}
+
+input CreatePokemonInput {
+  baseExperience: Int!
+  height: Int!
+  isDefault: Boolean!
+  name: String!
+  pokemonId: Int!
+  weight: Int!
+}
+
+input CreateUserInput {
+  nickname: String!
+  password: String!
+  refreshToken: String
+  role: String!
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input GetManyInput {
+  """
+  {key: "ASC" or "DESC" or "asc" or "desc" or 1 or -1} or {key: {direction: "ASC" or "DESC" or "asc" or "desc", nulls: "first" or "last" or "FIRST" or "LAST"}}}
+  """
+  order: JSON
+  pagination: IPagination
+  where: JSON
+}
+
+input GetOneInput {
+  where: JSON!
+}
+
+input GetPokemonListInput {
+  limit: Int
+  offset: Int
+  type: String
+}
+
+type GetUserType {
+  count: Float
+  data: [User!]
+}
+
+input IPagination {
+  """Started from 0"""
+  page: Int!
+
+  """Size of page"""
+  size: Int!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type JwtWithUser {
+  jwt: String!
+  user: User!
+}
+
+type Mutation {
+  createPokemon(input: CreatePokemonInput!): Pokemon!
+  createUser(input: CreateUserInput!): User!
+  deleteFiles(keys: [String!]!): Boolean!
+  deletePokemon(id: Int!): Boolean!
+  deleteUser(id: String!): JSON!
+  refreshAccessToken: JwtWithUser!
+  signIn(input: SignInInput!): JwtWithUser!
+  signOut: Boolean!
+  signUp(input: SignUpInput!): JwtWithUser!
+  updatePokemon(id: Int!, input: UpdatePokemonInput!): Pokemon!
+  updateUser(id: String!, input: UpdateUserInput!): JSON!
+  uploadFile(file: Upload!): String!
+  uploadFiles(files: [Upload!]!): [String!]!
+}
+
+type Pokemon {
+  abilities: [Ability!]!
+  baseExperience: Int!
+  createdAt: DateTime!
+  height: Int!
+  isDefault: Boolean!
+  name: String!
+  pokemonId: ID!
+  types: [Type!]!
+  updatedAt: DateTime!
+  weight: Int!
+}
+
+type PokemonList {
+  items: [Pokemon!]!
+  total: Int!
+}
+
+type Query {
+  getManyUserList(input: GetManyInput): GetUserType!
+  getMe: User!
+  getOneUser(input: GetOneInput!): User!
+  pokemon(id: Int!): Pokemon!
+  pokemonAbilities: [Ability!]!
+  pokemonByType(type: String!): [Pokemon!]!
+  pokemonTypes: [Type!]!
+  pokemons(input: GetPokemonListInput!): PokemonList!
+}
+
+input SignInInput {
+  password: String!
+  username: String!
+}
+
+input SignUpInput {
+  nickname: String!
+  password: String!
+  username: String!
+}
+
+type Type {
+  pokemons: [Pokemon!]!
+  typeId: ID!
+  typeName: String!
+}
+
+input UpdatePokemonInput {
+  baseExperience: Int
+  height: Int
+  isDefault: Boolean
+  name: String
+  pokemonId: Int
+  weight: Int
+}
+
+input UpdateUserInput {
+  nickname: String
+  password: String
+  refreshToken: String
+  role: String
+  username: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type User {
+  createdAt: DateTime!
+  id: ID!
+  nickname: String!
+  refreshToken: String
+  role: String!
+  updatedAt: DateTime!
+  username: String!
+}

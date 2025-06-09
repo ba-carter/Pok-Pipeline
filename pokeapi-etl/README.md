@@ -60,49 +60,50 @@ This simple architectural diagram reflects the current architecture of Python ET
 ## Database Schema
 
 ```mermaid
-ERD
+erDiagram
     POKEMON ||--o{ POKEMON_TYPE : has
     POKEMON ||--o{ POKEMON_ABILITY : has
     POKEMON ||--o{ POKEMON_STAT : has
     TYPE ||--o{ POKEMON_TYPE : in
     ABILITY ||--o{ POKEMON_ABILITY : in
-    
+
     POKEMON {
-        integer pokemon_id PK
+        int pokemon_id PK
         string name
-        integer height
-        integer weight
-        integer base_experience
-        boolean is_default
+        int height
+        int weight
+        int base_experience
+        bool is_default
     }
-    
+
     TYPE {
-        integer type_id PK
+        int type_id PK
         string type_name
     }
-    
+
     ABILITY {
-        integer ability_id PK
+        int ability_id PK
         string ability_name
     }
-    
+
     POKEMON_TYPE {
-        integer pokemon_id FK
-        integer type_id FK
+        int pokemon_id FK
+        int type_id FK
     }
-    
+
     POKEMON_ABILITY {
-        integer pokemon_id FK
-        integer ability_id FK
+        int pokemon_id FK
+        int ability_id FK
     }
-    
+
     POKEMON_STAT {
-        integer stat_id PK
-        integer pokemon_id FK
+        int stat_id PK
+        int pokemon_id FK
         string stat_name
-        integer base_stat
-        integer effort
+        int base_stat
+        int effort
     }
+
 ```
 
 **This diagram reflects the schema defined in `data_models/models.py` file and aligns with good normalized relational database design.**
@@ -292,6 +293,7 @@ Once the PostgreSQL container is running and your Python dependencies are instal
 The pipeline will start fetching data for Pokémon IDs 1-20, transform it, and load it into your PostgreSQL database. You will see logging output indicating the progress.
 
 ##### Screenshot of orchestration result
+![Screenshot from 2025-06-06 17-52-52](https://github.com/user-attachments/assets/98ff079b-5a45-488c-b3d8-90820de9e1ad)
 
 ---
 
@@ -321,6 +323,8 @@ You should see the fetched and transformed Pokémon data populated in the respec
 
 ##### Screenshot of populated table of Pokémon data
 
+![Screenshot from 2025-06-06 17-57-05](https://github.com/user-attachments/assets/84f79be0-721b-4a41-b52b-441196f8769a)
+
 ---
 
 ### 4. Running Tests
@@ -329,6 +333,9 @@ You should see the fetched and transformed Pokémon data populated in the respec
 pytest tests/ -v
 
 ```
+##### Screenshot of unit test
+
+![Screenshot from 2025-06-06 19-28-26](https://github.com/user-attachments/assets/5d83cc7e-4246-4c09-b33a-defa44c1fcb8)
 
 ---
 

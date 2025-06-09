@@ -1,0 +1,5 @@
+*.hbs
+graphql-schema.gql
+generator/*
+/generator
+.env
