@@ -14,7 +14,7 @@ interface Props {
 }
 
 const StyledSearchBarWrapper = styled('div', {
-  margin: '0 $4',
+  margin: '0 auto',
   marginTop: 'calc(213px - $sizes$header)',
   position: 'relative',
   maxWidth: '629px',

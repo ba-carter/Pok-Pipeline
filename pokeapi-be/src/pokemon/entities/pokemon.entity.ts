@@ -43,15 +43,6 @@ export class Pokemon {
   @Column({ name: 'is_default' })
   isDefault: boolean;
 
-  //   @Field(() => [Type])
-  //   @ManyToMany(() => Type, type => type.pokemons)
-  //   @JoinTable({
-  //     name: 'pokemon_types',
-  //     joinColumn: { name: 'pokemon_id' },
-  //     inverseJoinColumn: { name: 'type_id' },
-  //   })
-  //   types: Type[];
-
   @Field(() => [Type])
   @ManyToMany(() => Type, (type) => type.pokemons)
   @JoinTable({

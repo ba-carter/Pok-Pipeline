@@ -59,9 +59,32 @@ services:
       - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - DB_NAME=${POSTGRES_DB:-pokemon}
     ports:
-      - "3000:3000"
+      - "${BE_PORT}:${BE_PORT}"
     depends_on:
       - etl
+    networks:
+      - pokeapi-network
+
+  # Next.js Frontend
+  frontend:
+    build:
+      context: ./pokemon-fe
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
+        - NEXT_PUBLIC_ETL_TRIGGER_ENDPOINT=${NEXT_PUBLIC_ETL_TRIGGER_ENDPOINT}
+    container_name: pokemon-fe
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
+      NEXT_PUBLIC_ETL_TRIGGER_ENDPOINT: ${NEXT_PUBLIC_ETL_TRIGGER_ENDPOINT}
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+      etl:
+        condition: service_healthy
     networks:
       - pokeapi-network
 

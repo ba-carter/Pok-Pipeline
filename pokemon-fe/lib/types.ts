@@ -375,4 +375,26 @@ export interface PokemonData {
   weight: number;
 }
 
+export interface Pokemon {
+  pokemonId: number;
+  name: string;
+  height: number;
+  weight: number;
+  baseExperience: number;
+  isDefault: boolean;
+  types: string[];
+  abilities: string[];
+  stats: {
+    statName: string;
+    baseStat: number;
+  }[];
+}
+
+export interface PokemonsList {
+  pokemons: {
+    items: Pokemon[];
+    total: number;
+  };
+}
 export default PokemonList;
+

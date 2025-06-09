@@ -27,7 +27,7 @@ export const { styled, getCssText, css, globalCss, theme } = createStitches({
       oceanPale: '#cde9f9',
       seafoamSecondary: '#3fddc0',
       seafoamDark: '#04c5a2',
-      seafoamMid: '#5fe2c9',
+      seafoamMid: '#C0C0C0',
       seafoamPale: '#c6f5ed',
       seafoamGhost: '#f7fdfc',
       coral: '#f07159',

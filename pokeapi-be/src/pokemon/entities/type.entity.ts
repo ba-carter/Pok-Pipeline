@@ -1,6 +1,12 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-import { Column, Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { Pokemon } from './pokemon.entity';
 

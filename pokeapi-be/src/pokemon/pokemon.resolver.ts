@@ -60,7 +60,6 @@ export class PokemonResolver {
   }
 
   @Mutation(() => Pokemon, { name: 'createPokemon' })
-  @UseAuthGuard('admin')
   async createPokemon(
     @Args('input') input: CreatePokemonInput,
   ): Promise<Pokemon> {
@@ -76,7 +75,6 @@ export class PokemonResolver {
   }
 
   @Mutation(() => Boolean, { name: 'deletePokemon' })
-  @UseAuthGuard('admin')
   async deletePokemon(
     @Args('id', { type: () => Int }) id: number,
   ): Promise<boolean> {

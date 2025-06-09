@@ -130,7 +130,6 @@ input SignUpInput {
 
 type Type {
   pokemons: [Pokemon!]!
-  typeId: ID!
   typeName: String!
 }
 
